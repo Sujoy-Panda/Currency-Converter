@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-bold text-center mb-4">Currency Converter</h1>
+        <div class="mb-4">
+            <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
+            <input type="number" id="amount" class="mt-1 p-2 w-full border rounded-md" value="1">
+        </div>
+        <div class="mb-4">
+            <label for="fromCurrency" class="block text-sm font-medium text-gray-700">From</label>
+            <select id="fromCurrency" class="mt-1 p-2 w-full border rounded-md">
+                <option value="USD">USD - US Dollar</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="JPY">JPY - Japanese Yen</option>
+            </select>
+        </div>
+        <div class="mb-4">
+            <label for="toCurrency" class="block text-sm font-medium text-gray-700">To</label>
+            <select id="toCurrency" class="mt-1 p-2 w-full border rounded-md">
+                <option value="USD">USD - US Dollar</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="JPY">JPY - Japanese Yen</option>
+            </select>
+        </div>
+        <button onclick="convertCurrency()" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">Convert</button>
+        <p id="result" class="mt-4 text-center text-lg font-semibold"></p>
+    </div>
+
+    <script>
+        // Fixed exchange rates (relative to USD) for simplicity - as of June 2025
+        const exchangeRates = {
+            USD: 1,
+            EUR: 0.92,
+            GBP: 0.78,
+            JPY: 150.25
+        };
+
+        function convertCurrency() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const fromCurrency = document.getElementById('fromCurrency').value;
+            const toCurrency = document.getElementById('toCurrency').value;
+            const resultElement = document.getElementById('result');
+
+            if (isNaN(amount) || amount <= 0) {
+                resultElement.textContent = 'Please enter a valid amount';
+                return;
+            }
+
+            // Convert to USD first, then to target currency
+            const amountInUSD = amount / exchangeRates[fromCurrency];
+            const convertedAmount = amountInUSD * exchangeRates[toCurrency];
+
+            resultElement.textContent = `${amount} ${fromCurrency} = ${convertedAmount.toFixed(2)} ${toCurrency}`;
+        }
+    </script>
+</body>
+</html>
